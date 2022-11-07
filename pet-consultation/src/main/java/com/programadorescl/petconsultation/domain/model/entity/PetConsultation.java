@@ -1,6 +1,7 @@
 package com.programadorescl.petconsultation.domain.model.entity;
 
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("pet_consultation")
@@ -9,6 +10,7 @@ public class PetConsultation extends BaseEntity<String> {
     @Indexed(unique = true)
     private String nationalRegistry;
     private Boolean isCertificate;
+    @DBRef
     private Veterinary veterinary;
 
     public PetConsultation(String id, String name, String nationalRegistry, Boolean isCertificate, Veterinary veterinary) {

@@ -1,10 +1,12 @@
 package com.programadorescl.petconsultation.domain.model.entity;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("veterinarians")
 public class Veterinary extends BaseEntity<String> {
 
+    @Indexed(unique = true)
     private String professionalLicense;
     private String lastName;
 
