@@ -1,0 +1,764 @@
+{
+	"info": {
+		"_postman_id": "4ce2d226-97c6-4060-9c82-6ab164764a6b",
+		"name": "Huellas de chile",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8152158"
+	},
+	"item": [
+		{
+			"name": "user-pet",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "saveUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": 1,\n    \"rut\": \"1234\",\n    \"name\": \"PersonaTest - Updated\",\n    \"address\": \"address 1\",\n    \"city\": \"Ciudad\",\n    \"phone\": \"+56955912282\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8050/v1/users/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"users",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllUsers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/v1/users/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"users",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/v1/users/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"users",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"userId\": 1,\n        \"name\": \"PersonaTest - Updated\",\n        \"address\": \"address 1\",\n        \"city\": \"Ciudad\",\n        \"phone\": \"+56900912283\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8050/v1/users/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"users",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteUserById",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/v1/users/delete/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"users",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPetInfoByUserId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/v1/users/pet/Mascota3/userId/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"users",
+										"pet",
+										"Mascota3",
+										"userId",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pet",
+					"item": [
+						{
+							"name": "savePet",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\n{\n        \"name\": \"Mascota3\",\n        \"activeTreatment\": true,\n        \"breed\": \"Kiltro3\",\n        \"userId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8050/api/v1/pets/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"api",
+										"v1",
+										"pets",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllPets",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/api/v1/pets/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"api",
+										"v1",
+										"pets",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findPetsByBreedOrName",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/api/v1/pets/findByBredOrName?param=perruno",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"api",
+										"v1",
+										"pets",
+										"findByBredOrName"
+									],
+									"query": [
+										{
+											"key": "param",
+											"value": "perruno"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetPetById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8050/v1/pets/Mascota1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8050",
+									"path": [
+										"v1",
+										"pets",
+										"Mascota1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "petConsultation",
+			"item": [
+				{
+					"name": "veterinary",
+					"item": [
+						{
+							"name": "save",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Veterinario4\",\n    \"professionalLicense\": \"123456679\",\n    \"lastName\": \"Apellido4\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/v1/veterinarians",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"veterinarians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteByLicense",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Veterinario3\",\n    \"professionalLicense\": \"123456\",\n    \"lastName\": \"Apellido3\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/v1/veterinarians/delete/123456",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"veterinarians",
+										"delete",
+										"123456"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"6368a2a3fbc2ba7cd22ecbdfXX\",\n    \"name\": \"Veterinario1\",\n    \"professionalLicense\": \"1234-UPDATE\",\n    \"lastName\": \"Apellido1\",\n    \"isModified\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/v1//veterinarians/update",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"",
+										"veterinarians",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/v1/veterinarians/all",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"veterinarians",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findByID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/v1/veterinarians/6369226508f451629b02eb9a",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"veterinarians",
+										"6369226508f451629b02eb9a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findByProfessionalLicense",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/v1/veterinarians/license/UPA",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"veterinarians",
+										"license",
+										"UPA"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pet-consultation",
+					"item": [
+						{
+							"name": "save",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Veterinaria4\",\n    \"nationalRegistry\": \"123457809\",\n    \"isCertificate\": true,\n    \"veterinary\": {\n        \"id\": \"6369226508f451629b02eb9a\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/v1/petConsultation",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"petConsultation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findByID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/v1/petConsultation/63694863d0020749db21f5fd",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"petConsultation",
+										"63694863d0020749db21f5fd"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findByNationalRegistry",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/v1/petConsultation/nationalRegistry/123456",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"petConsultation",
+										"nationalRegistry",
+										"123456"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteByNationalRegistry",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Veterinario3\",\n    \"professionalLicense\": \"123456\",\n    \"lastName\": \"Apellido3\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/v1/petConsultation/delete/123457",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"petConsultation",
+										"delete",
+										"123457"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/v1/petConsultation/all",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"petConsultation",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"id\": \"63694863d0020749db21f5fd\",\n        \"name\": \"Veterinaria1 - UPDATE -NEW\",\n        \"isModified\": true,\n        \"nationalRegistry\": \"123456\",\n        \"isCertificate\": true,\n        \"veterinary\": {\n            \"id\": \"6368a2a3fbc2ba7cd22ecbdf\"\n        }\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/v1/petConsultation/update",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"petConsultation",
+										"update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "medicalConsultation",
+			"item": [
+				{
+					"name": "save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"petName\": \"Mascota2\",\n    \"idPetConsultation\": \"636ad1c682cfd12655bc8463\",\n    \"paymentMethod\": \"CASH\",\n    \"processDescription\": \"lala\",\n    \"statusMedicalConsultation\": \"OPEN\",\n    \"isTreatment\": true,\n    \"totalAmount\": 2000.0,\n    \"payment\": 0.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/save",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"petName\": \"Mascota1\",\n    \"idPetConsultation\": \"63694863d0020749db21f5fd\",\n    \"paymentMethod\": \"CASH\",\n    \"processDescription\": \"lala\",\n    \"statusMedicalConsultation\": \"CLOSED\",\n    \"isTreatment\": false,\n    \"totalAmount\": 2000.0,\n    \"payment\": 2000.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/update",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/5",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/all",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "medicalConsultation Copy",
+			"item": [
+				{
+					"name": "save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"petName\": \"Mascota01\",\n    \"idPetConsultation\": 1,\n    \"paymentMethod\": \"CASH\",\n    \"processDescription\": \"lala\",\n    \"statusMedicalConsultation\": \"OPEN\",\n    \"isTreatment\": true,\n    \"totalAmount\": 2000.0,\n    \"payment\": 0.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/save",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/v1/medialConsultations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"v1",
+								"medialConsultations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
