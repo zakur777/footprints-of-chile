@@ -1,21 +1,25 @@
 package com.programadorescl.medicalconsultation.domain.gateways;
 
 import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
+import com.programadorescl.medicalconsultation.domain.entities.StatusMedicalConsultation;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface MedicalConsultationGateway {
 
-    Optional<MedicalConsultation> findById(int id);
+    Optional<MedicalConsultation> findById(Long id);
 
     List<MedicalConsultation> getAll();
 
-    boolean existsByStatusMedicalConsultationContainingIgnoreCaseAndPetId(String estado, int id);
+    // boolean existsByStatusMedicalConsultationContainingAndPetName(String estado, String petName);
 
-    boolean existsByPetIdAndIdPetConsultation(int idPet, int idPetConsultation);
+    // boolean existsByPetNameAndIdPetConsultation(String petName, Long idPetConsultation);
+
+    Optional<Long> countPetNameAndStatusMedicalConsultation(String petName);
 
     MedicalConsultation save(MedicalConsultation medicalConsultation);
+
 
     void delete(MedicalConsultation medicalConsultation);
 

@@ -14,4 +14,7 @@ public abstract class BaseEntity<T> extends Entity<T> {
         return isModified;
     }
 
+    public void setModified(boolean modified) {
+        isModified = modified;
+    }
 }

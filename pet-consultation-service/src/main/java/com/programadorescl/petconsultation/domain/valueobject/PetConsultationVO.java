@@ -2,8 +2,10 @@ package com.programadorescl.petconsultation.domain.valueobject;
 
 import com.programadorescl.petconsultation.domain.model.entity.Veterinary;
 
+import org.springframework.hateoas.RepresentationModel;
 
-public class PetConsultationVO {
+
+public class PetConsultationVO extends RepresentationModel<PetConsultationVO> {
     private String id;
     private String name;
     private String nationalRegistry;

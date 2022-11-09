@@ -1,150 +1,195 @@
 package com.programadorescl.medicalconsultation.domain.services;
 
-import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
-import com.programadorescl.medicalconsultation.domain.entities.Pet;
-import com.programadorescl.medicalconsultation.domain.entities.User;
-import com.programadorescl.medicalconsultation.domain.exception.ConsultOpenOrTreatmentException;
-import com.programadorescl.medicalconsultation.domain.exception.OpenConsultException;
-import com.programadorescl.medicalconsultation.domain.exception.OtherPetConsultationnException;
+import com.programadorescl.medicalconsultation.domain.entities.*;
+import com.programadorescl.medicalconsultation.domain.exception.*;
 import com.programadorescl.medicalconsultation.domain.gateways.MedicalConsultationGateway;
-import com.programadorescl.medicalconsultation.domain.gateways.PetConsultationGateway;
-import com.programadorescl.medicalconsultation.domain.gateways.PetGateway;
-import com.programadorescl.medicalconsultation.domain.gateways.UserGateway;
+import com.programadorescl.medicalconsultation.persistence.dto.RequestPetConsultationDTO;
+import com.programadorescl.medicalconsultation.persistence.dto.RequestPetDTO;
+import com.programadorescl.medicalconsultation.persistence.dto.RequestUserDTO;
+import com.programadorescl.medicalconsultation.persistence.mappers.PetConsultationMapper;
+import com.programadorescl.medicalconsultation.persistence.mappers.PetMapper;
+import com.programadorescl.medicalconsultation.persistence.mappers.UserMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
+
+@RequiredArgsConstructor
 @Service
 public class MedicalConsultationService {
-    @Autowired
-    private MedicalConsultationGateway medicalConsultationGateway;
+
+    @Autowired private MedicalConsultationGateway medicalConsultationGateway;
+
+    private RestTemplate restTemplate;
+    private PetMapper petMapper;
+
+    private UserMapper userMapper;
+
+    private PetConsultationMapper petConsultationMapper;
 
     @Autowired
-    private PetGateway petGateway;
+    public MedicalConsultationService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate =
+                restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
+    }
 
-    @Autowired
-    private PetConsultationGateway petConsultationGateway;
-
-    @Autowired
-    private UserGateway userGateway;
-
-
-    public List<MedicalConsultation> getAll() {
+    public List<MedicalConsultation> getAll() throws Exception {
         return medicalConsultationGateway.getAll();
     }
 
-    public Optional<MedicalConsultation> findById(int id) {
+    public Optional<MedicalConsultation> findById(Long id) throws Exception {
+        Optional<MedicalConsultation> optionalMedicalConsultation = medicalConsultationGateway.findById(id);
+        if (!optionalMedicalConsultation.isPresent()) {
+            Object[] args = {id};
+            throw new PetConsultationNotFoundException("petConsultationNotFound", args);
+        }
         return medicalConsultationGateway.findById(id);
     }
 
-    public MedicalConsultation save(MedicalConsultation medicalConsultation) throws OpenConsultException, OtherPetConsultationnException {
+    public MedicalConsultation save(MedicalConsultation medicalConsultation) throws Exception {
 
-        boolean consulta1 = medicalConsultationGateway.existsByStatusMedicalConsultationContainingIgnoreCaseAndPetId("abierta", medicalConsultation.getPetId());
-        Object[] args = {medicalConsultation};
+        validateTwoOpenMedicalConsultations(medicalConsultation);
 
-        if (consulta1) {
-            throw new OpenConsultException("consulta.consultopen.message", args);
-        }
+        Map<String, String> pathVariables = new HashMap<String, String>();
+        pathVariables.put("id", "VALOR");
 
+        RequestPetDTO requestPetDTO = validatePet(medicalConsultation, pathVariables);
+        Pet pet = new Pet();
+        BeanUtils.copyProperties(requestPetDTO, pet);
 
-        boolean existPet = medicalConsultationGateway.existsByPetIdAndIdPetConsultation(medicalConsultation.getPetId(),
-                medicalConsultation.getIdPetConsultation());
+        pathVariables.replace("id", medicalConsultation.getUserId().toString());
+        RequestUserDTO requestUserDTO = validateUser(medicalConsultation, pathVariables);
 
-        if (existPet) {
-            throw new OtherPetConsultationnException("consulta.otherpetCosultationn.message", args);
-        }
+        User user = new User();
+        BeanUtils.copyProperties(requestUserDTO, user);
 
-        //TODO FETCH A LA OTRA API PET_USER
-        Optional<Pet> pet = petGateway.findById(medicalConsultation.getPetId());
+        pathVariables.replace("id", medicalConsultation.getIdPetConsultation());
+        RequestPetConsultationDTO requestPetConsultationDTO =
+                vavlidatePetConsultation(medicalConsultation, pathVariables);
 
-        //TODO FETCH A LA OTRA API PET_USER 2
-        Optional<MedicalConsultation> petCosultation = medicalConsultationGateway.findById(medicalConsultation.getIdPetConsultation());
+        PetConsultation petConsultation = new PetConsultation();
+        BeanUtils.copyProperties(requestPetConsultationDTO, petConsultation);
 
-        //TODO FETCH A LA OTRA API PET_USER 3
-        Optional<User> user = userGateway.findById(medicalConsultation.getUserId());
+        medicalConsultation.setPet(pet);
+        medicalConsultation.setUser(user);
+        medicalConsultation.setPetConsultation(petConsultation);
 
         return medicalConsultationGateway.save(medicalConsultation);
     }
 
-    public MedicalConsultation update(int id, MedicalConsultation medicalConsultation) {
-        //TODO FETCH A LA OTRA API PET_USER
-        Optional<MedicalConsultation> optionalMedicalConsultation = medicalConsultationGateway.findById(id);
+    public MedicalConsultation update(MedicalConsultation medicalConsultation) throws Exception {
 
-        //TODO FETCH A LA OTRA API PET_USER
-        Optional<Pet> pet = petGateway.findById(medicalConsultation.getPetId());
+        Map<String, String> pathVariables = new HashMap<String, String>();
+        pathVariables.put("id", "VALOR");
 
-        //TODO FETCH A LA OTRA API PET_USER
-        Optional<User> user = userGateway.findById(medicalConsultation.getUserId());
+        validateMedicalConsultation(medicalConsultation);
+        validateUser(medicalConsultation, pathVariables);
+        validatePet(medicalConsultation, pathVariables);
+        vavlidatePetConsultation(medicalConsultation, pathVariables);
+
+        boolean totalPaymentOk =
+                medicalConsultation.getTotalAmount().equals(medicalConsultation.getPayment());
+
+        if (!medicalConsultation.isTreatment() && totalPaymentOk) {
+            medicalConsultation.setStatusMedicalConsultation(StatusMedicalConsultation.CLOSED);
+        }
 
         return medicalConsultationGateway.update(medicalConsultation);
     }
 
-    public MedicalConsultation estadoCerrada(int id) {
-        Optional<MedicalConsultation> medicalConsultation = medicalConsultationGateway.findById(id);
+    public void delete(Long id) throws Exception {
 
-        Optional<Pet> pet = petGateway.findById(medicalConsultation.get().getPetId());
-
-        Optional<User> user = userGateway.findById(medicalConsultation.get().getUserId());
-
-
-        if (medicalConsultation.get().isIsTreatment()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El tratamiento esta activo");
+        Optional<MedicalConsultation> optionalMedicalConsultation = this.findById(id);
+        if (!optionalMedicalConsultation.isPresent()) {
+            Object[] args = {optionalMedicalConsultation.get().getId()};
+            throw new MedicalConsultationNotFoundException("medicalConsultationNotFound", args);
         }
 
-        if (medicalConsultation.get().getTotalAmount() != 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El valor del tratamiento no esta cancelado");
-        }
+        StatusMedicalConsultation status =
+                optionalMedicalConsultation.get().getStatusMedicalConsultation();
 
-        return medicalConsultationGateway.update(medicalConsultation.get());
-    }
-
-    public MedicalConsultation tratamientoTerminado(int id) {
-        Optional<MedicalConsultation> medicalConsultation = medicalConsultationGateway.findById(id);
-
-        Optional<Pet> pet = petGateway.findById(medicalConsultation.get().getPetId());
-
-        Optional<User> user = userGateway.findById(medicalConsultation.get().getUserId());
-
-        return medicalConsultationGateway.update(medicalConsultation.get());
-    }
-
-    public MedicalConsultation tratamientoPagado(int id) {
-        Optional<MedicalConsultation> medicalConsultation = medicalConsultationGateway.findById(id);
-
-        Optional<Pet> pet = petGateway.findById(medicalConsultation.get().getPetId());
-
-        Optional<User> user = userGateway.findById(medicalConsultation.get().getUserId());
-
-        return medicalConsultationGateway.update(medicalConsultation.get());
-    }
-
-    public MedicalConsultation enTratamiento(int id) {
-        Optional<MedicalConsultation> medicalConsultation = medicalConsultationGateway.findById(id);
-
-        Optional<Pet> pet = petGateway.findById(medicalConsultation.get().getPetId());
-
-        Optional<User> user = userGateway.findById(medicalConsultation.get().getUserId());
-
-        return medicalConsultationGateway.update(medicalConsultation.get());
-    }
-
-    public void delete(int id) throws ConsultOpenOrTreatmentException {
-        Optional<MedicalConsultation> consulta1 = medicalConsultationGateway.findById(id);
-
-        String status = consulta1.get().getStatusMedicalConsultation();
-
-        if (status.equals("en tratamiento") || status.equals("abierta")) {
+        if (status.equals(StatusMedicalConsultation.OPEN)
+                || status.equals(StatusMedicalConsultation.UNDER_TREATMENT)) {
             Object[] args = {id};
-            throw new ConsultOpenOrTreatmentException("consulta.opentreatment.message", args);
+            throw new ConsultOpenOrUnderTreatmentException("consultOpenOrUnderTreatment", args);
         }
 
-        medicalConsultationGateway.findById(id).map(consulta -> {
-            medicalConsultationGateway.delete(consulta);
-            return true;
-        });
+        medicalConsultationGateway.delete(optionalMedicalConsultation.get());
+    }
+
+    private void validateMedicalConsultation(MedicalConsultation medicalConsultation)
+            throws Exception {
+        Optional<MedicalConsultation> optionalMedicalConsultation =
+                this.findById(medicalConsultation.getId());
+        if (!optionalMedicalConsultation.isPresent()) {
+            Object[] args = {medicalConsultation.getId()};
+            throw new MedicalConsultationNotFoundException("medicalConsultationNotFound", args);
+        }
+    }
+
+    private RequestPetConsultationDTO vavlidatePetConsultation(
+            MedicalConsultation medicalConsultation, Map<String, String> pathVariables)
+            throws Exception {
+        pathVariables.replace("id", medicalConsultation.getIdPetConsultation());
+        RequestPetConsultationDTO requestPetConsultationDTO =
+                restTemplate.getForObject(
+                        "http://localhost:8080/v1/petConsultation/{id}",
+                        RequestPetConsultationDTO.class,
+                        pathVariables);
+        if (isNull(requestPetConsultationDTO.getId())) {
+            Object[] args = {medicalConsultation.getIdPetConsultation()};
+            throw new PetConsultationNotFoundException("petConsultationNotFound", args);
+        }
+        return requestPetConsultationDTO;
+    }
+
+    private RequestUserDTO validateUser(
+            MedicalConsultation medicalConsultation, Map<String, String> pathVariables)
+            throws Exception {
+        pathVariables.replace("id", medicalConsultation.getUserId().toString());
+        RequestUserDTO requestUserDTO =
+                restTemplate.getForObject(
+                        "http://localhost:8050/v1/users/{id}", RequestUserDTO.class, pathVariables);
+        if (isNull(requestUserDTO.getUserId())) {
+            Object[] args = {medicalConsultation.getUserId()};
+            throw new UserNotFoundException("userNotFound", args);
+        }
+        return requestUserDTO;
+    }
+
+    private RequestPetDTO validatePet(
+            MedicalConsultation medicalConsultation, Map<String, String> pathVariables)
+            throws Exception {
+        pathVariables.replace("id", medicalConsultation.getPetName());
+        RequestPetDTO requestPetDTO =
+                restTemplate.getForObject(
+                        "http://localhost:8050/v1/pets/{id}", RequestPetDTO.class, pathVariables);
+        if (isNull(requestPetDTO.getName())) {
+            Object[] args = {medicalConsultation.getPetName()};
+            throw new PetNotFoundException("petNotFound", args);
+        }
+        return requestPetDTO;
+    }
+
+    private void validateTwoOpenMedicalConsultations(MedicalConsultation medicalConsultation)
+            throws PethWithMedicalConsultationOpenException {
+        Optional<Long> countOpenMedicalConsultation =
+                medicalConsultationGateway.countPetNameAndStatusMedicalConsultation(
+                        medicalConsultation.getPetName());
+
+        if (countOpenMedicalConsultation.isPresent() && countOpenMedicalConsultation.get() == 2) {
+            Object[] args = {medicalConsultation.getPetName()};
+            throw new PethWithMedicalConsultationOpenException(
+                    "pethWithMedicalConsultationOpen", args);
+        }
     }
 }

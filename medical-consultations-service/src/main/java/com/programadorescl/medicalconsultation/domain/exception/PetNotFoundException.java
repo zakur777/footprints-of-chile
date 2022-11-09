@@ -1,20 +1,23 @@
 package com.programadorescl.medicalconsultation.domain.exception;
 
-public class OtherPetConsultationnException extends Exception {
+import java.io.IOException;
+
+public class PetNotFoundException extends Exception {
+
     private static final long serialVersionUID = -8890080495441147845L;
 
     private String message;
     private Object[] args;
 
-    public OtherPetConsultationnException(String name) {
-        this.message = String.format("There is already a pet with the name - %s", name);
+    public PetNotFoundException(String message) {
+        this.message = String.format("Pet with %s is not found.", message);
     }
 
-    public OtherPetConsultationnException(Object[] args) {
+    public PetNotFoundException(Object[] args) {
         this.args = args;
     }
 
-    public OtherPetConsultationnException(String message, Object[] args) {
+    public PetNotFoundException(String message, Object[] args) {
         this.message = message;
         this.args = args;
     }

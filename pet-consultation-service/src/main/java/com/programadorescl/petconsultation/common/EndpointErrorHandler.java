@@ -45,7 +45,7 @@ public class EndpointErrorHandler {
         ErrorInfo response = new ErrorInfo();
         response.setUrl(request.getRequestURL().toString());
         response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(DuplicatePetConsultationException.class)

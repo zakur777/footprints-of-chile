@@ -1,67 +1,87 @@
 package com.programadorescl.medicalconsultation.domain.entities;
 
-public class MedicalConsultation {
-    private int id;
-    private int userId;
-    private int petId;
-    private int idPetConsultation;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.programadorescl.medicalconsultation.persistence.models.MedicalConsultationDAO;
+import org.springframework.hateoas.RepresentationModel;
+
+public class MedicalConsultation extends RepresentationModel<MedicalConsultation> {
+    private Long id;
+    private Long userId;
+    private String petName;
+    private String idPetConsultation;
     private User user;
     private PetConsultation petConsultation;
     private Pet pet;
-    private String paymentMethod;
-    private String ProcessDescription;
-    private String statusMedicalConsultation;
-    private boolean isIsTreatment;
-    private int totalAmount;
+
+    private PaymentMethod paymentMethod;
+    private String processDescription;
+    private StatusMedicalConsultation statusMedicalConsultation;
+    private boolean isTreatment;
+    private Long totalAmount;
+
+    private Long payment;
 
     public MedicalConsultation() {
 
     }
 
-    public MedicalConsultation(int id, int userId, int petId, int idPetConsultation, User user, PetConsultation petConsultation, Pet pet, String paymentMethod, String processDescription, String statusMedicalConsultation, boolean isIsTreatment, int totalAmount) {
+    public MedicalConsultation(Long id, Long userId,
+                               String petName,
+                               String idPetConsultation,
+                               User user,
+                               PetConsultation petConsultation,
+                               Pet pet,
+                               PaymentMethod paymentMethod,
+                               String processDescription,
+                               StatusMedicalConsultation statusMedicalConsultation,
+                               boolean isTreatment,
+                               Long totalAmount,
+                               Long payment) {
         this.id = id;
         this.userId = userId;
-        this.petId = petId;
+        this.petName = petName;
         this.idPetConsultation = idPetConsultation;
         this.user = user;
         this.petConsultation = petConsultation;
         this.pet = pet;
         this.paymentMethod = paymentMethod;
-        ProcessDescription = processDescription;
+        this.processDescription = processDescription;
         this.statusMedicalConsultation = statusMedicalConsultation;
-        this.isIsTreatment = isIsTreatment;
+        this.isTreatment = isTreatment;
         this.totalAmount = totalAmount;
+        this.payment = payment;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public int getPetId() {
-        return petId;
+    public String getPetName() {
+        return petName;
     }
 
-    public void setPetId(int petId) {
-        this.petId = petId;
+    public void setPetName(String petName) {
+        this.petName = petName;
     }
 
-    public int getIdPetConsultation() {
+    public String getIdPetConsultation() {
         return idPetConsultation;
     }
 
-    public void setIdPetConsultation(int idPetConsultation) {
+    public void setIdPetConsultation(String idPetConsultation) {
         this.idPetConsultation = idPetConsultation;
     }
 
@@ -89,43 +109,52 @@ public class MedicalConsultation {
         this.pet = pet;
     }
 
-    public String getPaymentMethod() {
+    public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
     public String getProcessDescription() {
-        return ProcessDescription;
+        return processDescription;
     }
 
     public void setProcessDescription(String processDescription) {
-        ProcessDescription = processDescription;
+        this.processDescription = processDescription;
     }
 
-    public String getStatusMedicalConsultation() {
+    public StatusMedicalConsultation getStatusMedicalConsultation() {
         return statusMedicalConsultation;
     }
 
-    public void setStatusMedicalConsultation(String statusMedicalConsultation) {
+    public void setStatusMedicalConsultation(StatusMedicalConsultation statusMedicalConsultation) {
         this.statusMedicalConsultation = statusMedicalConsultation;
     }
 
-    public boolean isIsTreatment() {
-        return isIsTreatment;
+    public boolean isTreatment() {
+        return isTreatment;
     }
 
-    public void setIsTreatment(boolean isTreatment) {
-        isIsTreatment = isTreatment;
+    @JsonProperty("isTreatment")
+    public void setTreatment(boolean treatment) {
+        this.isTreatment = treatment;
     }
 
-    public int getTotalAmount() {
+    public Long getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(int totalAmount) {
+    public void setTotalAmount(Long totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Long getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Long payment) {
+        this.payment = payment;
     }
 }

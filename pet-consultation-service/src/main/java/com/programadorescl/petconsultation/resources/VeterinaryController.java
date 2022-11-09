@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,38 +25,38 @@ public class VeterinaryController {
 
     protected static final Logger logger = Logger.getLogger(VeterinaryController.class.getName());
 
-    @Autowired
-    private VeterinaryService veterinaryService;
+    @Autowired private VeterinaryService veterinaryService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Veterinary> findById(@PathVariable("id") String id) throws Exception {
-        logger.info(String
-                .format("pet-consultation-service findById() invoked: %s for %s", veterinaryService.getClass().getName(),
-                        id));
+    public ResponseEntity<VeterinaryVO> findById(@PathVariable("id") String id) throws Exception {
+        logger.info(
+                String.format(
+                        "pet-consultation-service findById() invoked: %s for %s",
+                        veterinaryService.getClass().getName(), id));
         Veterinary veterinary;
         VeterinaryVO veterinaryVO = new VeterinaryVO();
         try {
             veterinary = veterinaryService.findById(id);
-            BeanUtils.copyProperties(veterinary,veterinaryVO);
-            veterinary.add(linkTo(methodOn(VeterinaryController.class)
-                            .findById(veterinary.getId()))
+            BeanUtils.copyProperties(veterinary, veterinaryVO);
+            veterinaryVO.setId(veterinary.getId());
+            veterinaryVO.add(
+                    linkTo(methodOn(VeterinaryController.class).findById(veterinaryVO.getId()))
                             .withSelfRel(),
-                    linkTo(methodOn(VeterinaryController.class)
-                            .findALL())
-                            .withRel("findALL"),
-                    linkTo(methodOn(VeterinaryController.class)
-                            .add(veterinaryVO))
-                            .withRel("add"),
-                    linkTo(methodOn(VeterinaryController.class)
-                            .delete(veterinary.getProfessionalLicense()))
+                    linkTo(methodOn(VeterinaryController.class).findALL()).withRel("findALL"),
+                    linkTo(methodOn(VeterinaryController.class).add(veterinaryVO)).withRel("add"),
+                    linkTo(
+                                    methodOn(VeterinaryController.class)
+                                            .delete(veterinary.getProfessionalLicense()))
                             .withRel("delete"),
-                    linkTo(methodOn(VeterinaryController.class)
-                            .update(veterinaryVO))
+                    linkTo(methodOn(VeterinaryController.class).update(veterinaryVO))
                             .withRel("update"),
-                    linkTo(methodOn(VeterinaryController.class)
-                            .findByProfessionalLicense(veterinary.getProfessionalLicense()))
-                            .withRel("findByProfessionalLicense")
-            );
+                    linkTo(
+                                    methodOn(VeterinaryController.class)
+                                            .findByProfessionalLicense(
+                                                    veterinary.getProfessionalLicense()))
+                            .withRel("findByProfessionalLicense"));
+
+
 
         } catch (VeterinaryNotFoundException ex) {
             logger.log(Level.WARNING, "Exception raised add Restaurant REST Call {0}", ex);
@@ -64,15 +65,15 @@ public class VeterinaryController {
             logger.log(Level.SEVERE, "Exception raised add Booking REST Call {0}", ex);
             throw ex;
         }
-        return new ResponseEntity<>(veterinary,HttpStatus.OK);
-
+        return new ResponseEntity<>(veterinaryVO, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Veterinary> add(@RequestBody VeterinaryVO veterinaryVO) throws Exception {
-        logger.info(String
-                .format("pet-consultation-service add() invoked: %s for %s", veterinaryService.getClass().getName(),
-                        veterinaryVO.getName()));
+        logger.info(
+                String.format(
+                        "pet-consultation-service add() invoked: %s for %s",
+                        veterinaryService.getClass().getName(), veterinaryVO.getName()));
         System.out.println(veterinaryVO);
         Veterinary veterinary = Veterinary.getDummyVeterinary();
         BeanUtils.copyProperties(veterinaryVO, veterinary);
@@ -90,10 +91,12 @@ public class VeterinaryController {
     }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<Veterinary> update(@RequestBody VeterinaryVO veterinaryVO) throws Exception {
-        logger.info(String
-                .format("pet-consultation-service update() invoked: %s for %s", veterinaryService.getClass().getName(),
-                        veterinaryVO.getName()));
+    public ResponseEntity<Veterinary> update(@RequestBody VeterinaryVO veterinaryVO)
+            throws Exception {
+        logger.info(
+                String.format(
+                        "pet-consultation-service update() invoked: %s for %s",
+                        veterinaryService.getClass().getName(), veterinaryVO.getName()));
         System.out.println(veterinaryVO);
         Veterinary veterinary = Veterinary.getDummyVeterinary();
         BeanUtils.copyProperties(veterinaryVO, veterinary);
@@ -107,17 +110,18 @@ public class VeterinaryController {
             logger.log(Level.SEVERE, "Exception raised add Booking REST Call {0}", ex);
             throw ex;
         }
-        return new ResponseEntity<>(veterinary,HttpStatus.OK);
+        return new ResponseEntity<>(veterinary, HttpStatus.OK);
     }
 
-    //TODO HATEOAS - DOCKER - OPENAPI
+    // TODO HATEOAS - DOCKER - OPENAPI
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<Veterinary>> findALL() throws Exception {
-        logger.info(String
-                .format("pet-consultation-service findALL() invoked: %s for %s", veterinaryService.getClass().getName(),
-                        "GETALL"));
-        List<Veterinary> veterinaryList;
+        logger.info(
+                String.format(
+                        "pet-consultation-service findALL() invoked: %s for %s",
+                        veterinaryService.getClass().getName(), "GETALL"));
+        List<Veterinary> veterinaryList = new ArrayList<>();
         try {
             veterinaryList = veterinaryService.findALL();
 
@@ -125,14 +129,16 @@ public class VeterinaryController {
             logger.log(Level.SEVERE, "Exception raised add Booking REST Call {0}", ex);
             throw ex;
         }
-        return new ResponseEntity<>(veterinaryList,HttpStatus.OK);
+        return new ResponseEntity<>(veterinaryList, HttpStatus.OK);
     }
 
     @GetMapping(value = "license/{license}")
-    public ResponseEntity<Veterinary> findByProfessionalLicense(@PathVariable("license") String license) throws Exception {
-        logger.info(String
-                .format("pet-consultation-service findByProfessionalLicense() invoked: %s for %s", veterinaryService.getClass().getName(),
-                        license));
+    public ResponseEntity<Veterinary> findByProfessionalLicense(
+            @PathVariable("license") String license) throws Exception {
+        logger.info(
+                String.format(
+                        "pet-consultation-service findByProfessionalLicense() invoked: %s for %s",
+                        veterinaryService.getClass().getName(), license));
         System.out.println(license);
         Veterinary veterinary;
         try {
@@ -145,15 +151,16 @@ public class VeterinaryController {
             logger.log(Level.SEVERE, "Exception raised add Booking REST Call {0}", ex);
             throw ex;
         }
-        return new ResponseEntity<>(veterinary,HttpStatus.OK);
-
+        return new ResponseEntity<>(veterinary, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "delete/{license}")
-    public ResponseEntity<Veterinary> delete(@PathVariable("license") String license) throws Exception {
-        logger.info(String
-                .format("pet-consultation-service delete() invoked: %s for %s", veterinaryService.getClass().getName(),
-                        license));
+    public ResponseEntity<Veterinary> delete(@PathVariable("license") String license)
+            throws Exception {
+        logger.info(
+                String.format(
+                        "pet-consultation-service delete() invoked: %s for %s",
+                        veterinaryService.getClass().getName(), license));
         try {
             veterinaryService.delete(license);
 
@@ -165,9 +172,7 @@ public class VeterinaryController {
             throw ex;
         }
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
-
 
     /*
 

@@ -2,6 +2,7 @@ package com.programadorescl.medicalconsultation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,6 +13,11 @@ import java.util.Locale;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
+
+    @Bean("restClient")
+    public RestTemplate registerRestTemplate() {
+        return new RestTemplate();
+    }
 
     @Bean
     public LocaleResolver localeResolver() {

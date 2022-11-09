@@ -1,20 +1,20 @@
 package com.programadorescl.medicalconsultation.domain.exception;
 
-public class ConsultOpenOrTreatmentException extends Exception {
+public class PetWithPetConsultationInCourseException extends Exception {
     private static final long serialVersionUID = -8890080495441147845L;
 
     private String message;
     private Object[] args;
 
-    public ConsultOpenOrTreatmentException(String name) {
+    public PetWithPetConsultationInCourseException(String name) {
         this.message = String.format("There is already a pet with the name - %s", name);
     }
 
-    public ConsultOpenOrTreatmentException(Object[] args) {
+    public PetWithPetConsultationInCourseException(Object[] args) {
         this.args = args;
     }
 
-    public ConsultOpenOrTreatmentException(String message, Object[] args) {
+    public PetWithPetConsultationInCourseException(String message, Object[] args) {
         this.message = message;
         this.args = args;
     }

@@ -1,8 +1,10 @@
 package com.programadorescl.petconsultation.domain.model.entity;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.RepresentationModel;
 
 @Document("pet_consultation")
@@ -11,6 +13,7 @@ public class PetConsultation extends BaseEntity<String> {
     @Indexed(unique = true)
     private String nationalRegistry;
     private boolean isCertificate;
+
     @DBRef
     private Veterinary veterinary;
 
@@ -56,6 +59,7 @@ public class PetConsultation extends BaseEntity<String> {
     public void setVeterinary(Veterinary veterinary) {
         this.veterinary = veterinary;
     }
+
 
     @Override
     public String toString() {

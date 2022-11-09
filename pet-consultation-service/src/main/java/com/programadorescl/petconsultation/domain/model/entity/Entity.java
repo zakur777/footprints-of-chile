@@ -1,10 +1,8 @@
 package com.programadorescl.petconsultation.domain.model.entity;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.hateoas.RepresentationModel;
 
-public abstract class Entity<T> extends RepresentationModel<PetConsultation> {
-
+public abstract class Entity<T> {
     @Id
     T id;
     String name;

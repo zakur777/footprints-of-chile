@@ -1,30 +1,27 @@
-package com.programadorescl.petconsultation.domain.valueobject;
+package com.programadorescl.medicalconsultation.domain.entities;
 
-import org.springframework.hateoas.RepresentationModel;
-
-public class VeterinaryVO extends RepresentationModel<VeterinaryVO> {
-
-    private String id;
+public class Veterinary {
+    private String Id;
     private String name;
     private String professionalLicense;
     private String lastName;
 
-    public VeterinaryVO() {
-    }
+    public Veterinary() {
 
-    public VeterinaryVO(String id, String name, String professionalLicense, String lastName) {
-        this.id = id;
+    }
+    public Veterinary(String id, String name, String professionalLicense, String lastName) {
+        Id = id;
         this.name = name;
         this.professionalLicense = professionalLicense;
         this.lastName = lastName;
     }
 
     public String getId() {
-        return id;
+        return Id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        Id = id;
     }
 
     public String getName() {
@@ -49,12 +46,5 @@ public class VeterinaryVO extends RepresentationModel<VeterinaryVO> {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "{id: %s, name: %s, professionalLicense: %s, lastName: %s",
-                id, name, professionalLicense, lastName);
     }
 }

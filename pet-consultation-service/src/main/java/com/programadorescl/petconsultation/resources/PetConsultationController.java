@@ -28,7 +28,7 @@ public class PetConsultationController {
     private PetConsultationService petConsultationService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PetConsultation> findById(@PathVariable("id") String id) throws Exception {
+    public ResponseEntity<PetConsultationVO> findById(@PathVariable("id") String id) throws Exception {
         logger.info(String
                 .format("pet-consultation-service findById() invoked: %s for %s", petConsultationService.getClass().getName(),
                         id));
@@ -37,8 +37,9 @@ public class PetConsultationController {
         try {
             petConsultation = petConsultationService.findById(id);
             BeanUtils.copyProperties(petConsultation,petConsultationVO);
-            petConsultation.add(linkTo(methodOn(PetConsultationController.class)
-                            .findById(petConsultation.getId()))
+            petConsultationVO.setId(petConsultation.getId());
+            petConsultationVO.add(linkTo(methodOn(PetConsultationController.class)
+                            .findById(petConsultationVO.getId()))
                             .withSelfRel(),
                     linkTo(methodOn(PetConsultationController.class)
                             .findALL())
@@ -47,13 +48,13 @@ public class PetConsultationController {
                             .add(petConsultationVO))
                             .withRel("add"),
                     linkTo(methodOn(PetConsultationController.class)
-                            .delete(petConsultation.getNationalRegistry()))
+                            .delete(petConsultationVO.getNationalRegistry()))
                             .withRel("delete"),
                     linkTo(methodOn(PetConsultationController.class)
                             .update(petConsultationVO))
                             .withRel("update"),
                     linkTo(methodOn(PetConsultationController.class)
-                            .findByNationalRegistry(petConsultation.getNationalRegistry()))
+                            .findByNationalRegistry(petConsultationVO.getNationalRegistry()))
                             .withRel("findByNationalRegistry")
             );
 
@@ -64,7 +65,7 @@ public class PetConsultationController {
             logger.log(Level.SEVERE, "Exception raised add Booking REST Call {0}", ex);
             throw ex;
         }
-        return new ResponseEntity<>(petConsultation,HttpStatus.OK);
+        return new ResponseEntity<>(petConsultationVO,HttpStatus.OK);
 
     }
 
@@ -76,6 +77,7 @@ public class PetConsultationController {
         System.out.println(petConsultationVO);
         PetConsultation petConsultation = PetConsultation.getDummyPetConsultation();
         BeanUtils.copyProperties(petConsultationVO, petConsultation);
+        petConsultation.setCertificate(petConsultationVO.isIsCertificate());
         try {
             petConsultationService.add(petConsultation);
 
