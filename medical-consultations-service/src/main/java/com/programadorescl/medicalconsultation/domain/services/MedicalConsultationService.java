@@ -1,7 +1,19 @@
 package com.programadorescl.medicalconsultation.domain.services;
 
-import com.programadorescl.medicalconsultation.domain.entities.*;
-import com.programadorescl.medicalconsultation.domain.exception.*;
+import static java.util.Objects.isNull;
+
+import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
+import com.programadorescl.medicalconsultation.domain.entities.Pet;
+import com.programadorescl.medicalconsultation.domain.entities.PetConsultation;
+import com.programadorescl.medicalconsultation.domain.entities.StatusMedicalConsultation;
+import com.programadorescl.medicalconsultation.domain.entities.User;
+import com.programadorescl.medicalconsultation.domain.exception.ConsultOpenOrUnderTreatmentException;
+import com.programadorescl.medicalconsultation.domain.exception.MedicalConsultationNotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.PetConsultationNotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.PetNotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.PethWithMedicalConsultationOpenException;
+import com.programadorescl.medicalconsultation.domain.exception.RestTemplateResponseErrorHandler;
+import com.programadorescl.medicalconsultation.domain.exception.UserNotFoundException;
 import com.programadorescl.medicalconsultation.domain.gateways.MedicalConsultationGateway;
 import com.programadorescl.medicalconsultation.persistence.dto.RequestPetConsultationDTO;
 import com.programadorescl.medicalconsultation.persistence.dto.RequestPetDTO;
@@ -9,19 +21,16 @@ import com.programadorescl.medicalconsultation.persistence.dto.RequestUserDTO;
 import com.programadorescl.medicalconsultation.persistence.mappers.PetConsultationMapper;
 import com.programadorescl.medicalconsultation.persistence.mappers.PetMapper;
 import com.programadorescl.medicalconsultation.persistence.mappers.UserMapper;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 @Service
@@ -47,7 +56,8 @@ public class MedicalConsultationService {
     }
 
     public Optional<MedicalConsultation> findById(Long id) throws Exception {
-        Optional<MedicalConsultation> optionalMedicalConsultation = medicalConsultationGateway.findById(id);
+        Optional<MedicalConsultation> optionalMedicalConsultation =
+                medicalConsultationGateway.findById(id);
         if (!optionalMedicalConsultation.isPresent()) {
             Object[] args = {id};
             throw new PetConsultationNotFoundException("petConsultationNotFound", args);

@@ -2,15 +2,20 @@ package com.programadorescl.medicalconsultation.persistence.models;
 
 import com.programadorescl.medicalconsultation.domain.entities.PaymentMethod;
 import com.programadorescl.medicalconsultation.domain.entities.StatusMedicalConsultation;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.Data;
-import org.springframework.hateoas.RepresentationModel;
-
-import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "medical_consultations")
-public class MedicalConsultationDAO  {
+public class MedicalConsultationDAO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +48,4 @@ public class MedicalConsultationDAO  {
     private Long totalAmount;
 
     private Long payment;
-
 }

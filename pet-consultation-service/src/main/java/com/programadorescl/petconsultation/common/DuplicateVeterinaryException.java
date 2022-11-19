@@ -7,7 +7,7 @@ public class DuplicateVeterinaryException extends Exception {
     private String message;
     private Object[] args;
 
-    public DuplicateVeterinaryException(String message){
+    public DuplicateVeterinaryException(String message) {
         this.message = String.format("Booking %s is not found.", message);
     }
 
@@ -15,7 +15,7 @@ public class DuplicateVeterinaryException extends Exception {
         this.args = args;
     }
 
-    public DuplicateVeterinaryException(String message, Object[] args){
+    public DuplicateVeterinaryException(String message, Object[] args) {
         this.message = message;
         this.args = args;
     }

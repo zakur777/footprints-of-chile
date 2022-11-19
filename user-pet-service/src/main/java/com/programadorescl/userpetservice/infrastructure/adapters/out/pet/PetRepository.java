@@ -5,23 +5,21 @@ import com.programadorescl.userpetservice.application.ports.out.pet.PetGateway;
 import com.programadorescl.userpetservice.infrastructure.crud.pet.PetCrudRepository;
 import com.programadorescl.userpetservice.infrastructure.mappers.pet.PetMapper;
 import com.programadorescl.userpetservice.infrastructure.models.pet.PetDAO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-
+import javax.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Transactional
 @Repository
 public class PetRepository implements PetGateway {
-    
+
     private final PetCrudRepository crudRepository;
-    
+
     private final PetMapper mapper;
-    
+
     @Override
     public List<Pet> getAll() {
         List<PetDAO> petDaos = (List<PetDAO>) crudRepository.findAll();

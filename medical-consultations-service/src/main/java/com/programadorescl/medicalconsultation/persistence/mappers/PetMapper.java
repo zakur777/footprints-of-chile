@@ -5,5 +5,4 @@ import com.programadorescl.medicalconsultation.persistence.dto.RequestPetDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface PetMapper extends GenericMapper<RequestPetDTO, Pet> {
-}
+public interface PetMapper extends GenericMapper<RequestPetDTO, Pet> {}

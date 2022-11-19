@@ -5,11 +5,9 @@ public class PetConsultation {
     private String name;
     private String nationalRegistry;
     private boolean isCertificate;
-    //private Veterinary veterinary;
+    // private Veterinary veterinary;
 
-    public PetConsultation() {
-
-    }
+    public PetConsultation() {}
 
     public PetConsultation(String id, String name, String nationalRegistry, boolean isCertificate) {
         this.id = id;

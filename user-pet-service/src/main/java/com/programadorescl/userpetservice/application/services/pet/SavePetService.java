@@ -4,16 +4,14 @@ import com.programadorescl.userpetservice.application.domains.entities.Pet;
 import com.programadorescl.userpetservice.application.ports.in.pet.SavePetUseCase;
 import com.programadorescl.userpetservice.application.ports.out.pet.PetGateway;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.DuplicatePetException;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class SavePetService implements SavePetUseCase {
 
-    @Autowired
-    private PetGateway gateway;
+    @Autowired private PetGateway gateway;
 
     @Override
     public Pet execute(Pet pet) throws Exception {

@@ -12,9 +12,7 @@ public class Pet extends RepresentationModel<Pet> {
 
     private String status;
 
-
-    public Pet() {
-    }
+    public Pet() {}
 
     public Pet(String name, String breed, String status) {
         this.name = name;
@@ -65,7 +63,6 @@ public class Pet extends RepresentationModel<Pet> {
 
     @Override
     public String toString() {
-        return "Pet{" + name + '\'' +
-                '}';
+        return "Pet{" + name + '\'' + '}';
     }
 }

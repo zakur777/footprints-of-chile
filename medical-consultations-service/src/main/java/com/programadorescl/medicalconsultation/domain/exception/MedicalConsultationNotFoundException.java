@@ -1,13 +1,13 @@
 package com.programadorescl.medicalconsultation.domain.exception;
 
-public class MedicalConsultationNotFoundException extends Exception{
+public class MedicalConsultationNotFoundException extends Exception {
 
     private static final long serialVersionUID = -8890080495441147845L;
 
     private String message;
     private Object[] args;
 
-    public MedicalConsultationNotFoundException(String message){
+    public MedicalConsultationNotFoundException(String message) {
         this.message = String.format("Booking %s is not found.", message);
     }
 
@@ -15,7 +15,7 @@ public class MedicalConsultationNotFoundException extends Exception{
         this.args = args;
     }
 
-    public MedicalConsultationNotFoundException(String message, Object[] args){
+    public MedicalConsultationNotFoundException(String message, Object[] args) {
         this.message = message;
         this.args = args;
     }

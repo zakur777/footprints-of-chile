@@ -10,6 +10,4 @@ public class RequestPetDTO {
     private String breed;
     private Long userId;
     private String status;
-
-
 }

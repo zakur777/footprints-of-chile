@@ -1,29 +1,22 @@
 package com.programadorescl.medicalconsultation.persistence;
 
 import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
-import com.programadorescl.medicalconsultation.domain.entities.StatusMedicalConsultation;
 import com.programadorescl.medicalconsultation.domain.gateways.MedicalConsultationGateway;
 import com.programadorescl.medicalconsultation.persistence.crud.MedicalConsultationCrudRepository;
 import com.programadorescl.medicalconsultation.persistence.mappers.MedicalConsultationMapper;
 import com.programadorescl.medicalconsultation.persistence.models.MedicalConsultationDAO;
-import com.programadorescl.medicalconsultation.persistence.models.StatusMedicalConsultationDAO;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-
 @Repository
 public class MedicalConsultationRepository implements MedicalConsultationGateway {
 
-    @Autowired
-    private MedicalConsultationCrudRepository repository;
+    @Autowired private MedicalConsultationCrudRepository repository;
 
-    @Autowired
-    private MedicalConsultationMapper mapper;
+    @Autowired private MedicalConsultationMapper mapper;
 
     @Override
     public Optional<MedicalConsultation> findById(Long id) {

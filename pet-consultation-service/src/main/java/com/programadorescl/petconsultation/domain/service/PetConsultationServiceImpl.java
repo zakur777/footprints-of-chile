@@ -1,5 +1,7 @@
 package com.programadorescl.petconsultation.domain.service;
 
+import static java.util.Objects.isNull;
+
 import com.programadorescl.petconsultation.common.DuplicatePetConsultationException;
 import com.programadorescl.petconsultation.common.PetConsultationNotFoundException;
 import com.programadorescl.petconsultation.common.VeterinaryNotFoundException;
@@ -7,28 +9,24 @@ import com.programadorescl.petconsultation.domain.model.entity.PetConsultation;
 import com.programadorescl.petconsultation.domain.model.entity.Veterinary;
 import com.programadorescl.petconsultation.domain.repository.PetConsultationRepository;
 import com.programadorescl.petconsultation.domain.repository.VeterinaryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.Objects.isNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PetConsultationServiceImpl implements PetConsultationService {
 
-    @Autowired
-    private PetConsultationRepository repository;
+    @Autowired private PetConsultationRepository repository;
 
-    @Autowired
-    private VeterinaryRepository veterinaryRepository;
-
+    @Autowired private VeterinaryRepository veterinaryRepository;
 
     @Override
     public PetConsultation add(PetConsultation petConsultation) throws Exception {
-        PetConsultation byNationalRegistry = repository.findByNationalRegistry(petConsultation.getNationalRegistry());
-        Optional<Veterinary> veterinarybyId = veterinaryRepository.findById(petConsultation.getVeterinary().getId());
+        PetConsultation byNationalRegistry =
+                repository.findByNationalRegistry(petConsultation.getNationalRegistry());
+        Optional<Veterinary> veterinarybyId =
+                veterinaryRepository.findById(petConsultation.getVeterinary().getId());
 
         if (veterinarybyId.isEmpty()) {
             Object[] args = {petConsultation.getNationalRegistry()};
@@ -40,15 +38,14 @@ public class PetConsultationServiceImpl implements PetConsultationService {
         }
         Object[] args = {petConsultation.getNationalRegistry()};
         throw new DuplicatePetConsultationException("duplicatePetConsultation", args);
-
-
     }
 
     @Override
     public PetConsultation update(PetConsultation petConsultation) throws Exception {
-        Optional<PetConsultation> optionalPetConsultation = repository.findById(petConsultation.getId());
-        Optional<Veterinary> veterinarybyId = veterinaryRepository.findById(petConsultation.getVeterinary().getId());
-
+        Optional<PetConsultation> optionalPetConsultation =
+                repository.findById(petConsultation.getId());
+        Optional<Veterinary> veterinarybyId =
+                veterinaryRepository.findById(petConsultation.getVeterinary().getId());
 
         if (veterinarybyId.isEmpty()) {
             Object[] args = {petConsultation.getNationalRegistry()};
@@ -56,8 +53,11 @@ public class PetConsultationServiceImpl implements PetConsultationService {
         }
         petConsultation.setVeterinary(veterinarybyId.get());
         if (optionalPetConsultation.isEmpty()) {
-            Object[] args = {petConsultation.getName(), petConsultation.getNationalRegistry(),
-                    petConsultation.getId()};
+            Object[] args = {
+                petConsultation.getName(),
+                petConsultation.getNationalRegistry(),
+                petConsultation.getId()
+            };
             throw new PetConsultationNotFoundException("petConsultationNotFound", args);
         }
         return repository.save(petConsultation);
@@ -67,8 +67,7 @@ public class PetConsultationServiceImpl implements PetConsultationService {
     public void delete(String nationalRegistry) throws Exception {
         PetConsultation petConsultation = repository.findByNationalRegistry(nationalRegistry);
         if (isNull(petConsultation)) {
-            Object[] args = {"NO-Name", nationalRegistry,
-                    "NO-ID"};
+            Object[] args = {"NO-Name", nationalRegistry, "NO-ID"};
             throw new PetConsultationNotFoundException("petConsultationNotFound", args);
         }
         repository.delete(petConsultation);
@@ -78,8 +77,7 @@ public class PetConsultationServiceImpl implements PetConsultationService {
     public PetConsultation findById(String id) throws Exception {
         Optional<PetConsultation> petConsultationById = repository.findById(id);
         if (petConsultationById.isEmpty()) {
-            Object[] args = {"No-Name", "No-National-Registry",
-                    id};
+            Object[] args = {"No-Name", "No-National-Registry", id};
             throw new PetConsultationNotFoundException("petConsultationNotFound", args);
         }
         return petConsultationById.get();
@@ -99,5 +97,4 @@ public class PetConsultationServiceImpl implements PetConsultationService {
     public List<PetConsultation> findALL() throws Exception {
         return repository.findAll();
     }
-
 }

@@ -1,14 +1,17 @@
 package com.programadorescl.userpetservice.infrastructure.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
 
 @SuperBuilder
 @AllArgsConstructor
@@ -28,6 +31,5 @@ public class BaseDAO {
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
-    @Builder.Default
-    private String status = "1";
+    @Builder.Default private String status = "1";
 }

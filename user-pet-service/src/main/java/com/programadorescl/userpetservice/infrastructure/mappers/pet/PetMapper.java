@@ -6,5 +6,4 @@ import com.programadorescl.userpetservice.infrastructure.models.pet.PetDAO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface PetMapper extends GenericMapper<PetDAO, Pet> {
-}
+public interface PetMapper extends GenericMapper<PetDAO, Pet> {}

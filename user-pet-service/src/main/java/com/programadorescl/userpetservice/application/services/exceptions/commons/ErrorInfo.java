@@ -5,9 +5,7 @@ public class ErrorInfo {
     private String url;
     private String message;
 
-    public ErrorInfo() {
-
-    }
+    public ErrorInfo() {}
 
     public ErrorInfo(String message) {
         this.message = message;

@@ -7,7 +7,7 @@ public class VeterinaryNotFoundException extends Exception {
     private String message;
     private Object[] args;
 
-    public VeterinaryNotFoundException(String message){
+    public VeterinaryNotFoundException(String message) {
         this.message = String.format("Booking %s is not found.", message);
     }
 
@@ -15,7 +15,7 @@ public class VeterinaryNotFoundException extends Exception {
         this.args = args;
     }
 
-    public VeterinaryNotFoundException(String message, Object[] args){
+    public VeterinaryNotFoundException(String message, Object[] args) {
         this.message = message;
         this.args = args;
     }

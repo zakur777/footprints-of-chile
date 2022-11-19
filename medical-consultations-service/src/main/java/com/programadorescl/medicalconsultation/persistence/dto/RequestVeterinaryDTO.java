@@ -8,5 +8,4 @@ public class RequestVeterinaryDTO {
     private String name;
     private String professionalLicense;
     private String lastName;
-
 }

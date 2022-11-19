@@ -1,23 +1,35 @@
 package com.programadorescl.userpetservice.infrastructure.adapters.in.pet;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.programadorescl.userpetservice.application.domains.entities.Pet;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.DuplicatePetException;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.PetNotFoundException;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.PetWithTreatmentException;
-import com.programadorescl.userpetservice.application.services.pet.*;
+import com.programadorescl.userpetservice.application.services.pet.DeletePetByIdService;
+import com.programadorescl.userpetservice.application.services.pet.FindByBredOrNameService;
+import com.programadorescl.userpetservice.application.services.pet.GetAllPetsService;
+import com.programadorescl.userpetservice.application.services.pet.GetPetByIdService;
+import com.programadorescl.userpetservice.application.services.pet.SavePetService;
+import com.programadorescl.userpetservice.application.services.pet.UpdatePetService;
 import com.programadorescl.userpetservice.infrastructure.adapters.in.user.UserController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "v1/pets")
@@ -25,50 +37,35 @@ public class PetController {
 
     protected static final Logger logger = Logger.getLogger(UserController.class.getName());
 
-    @Autowired
-    private GetAllPetsService getAllPetsService;
+    @Autowired private GetAllPetsService getAllPetsService;
 
-    @Autowired
-    private GetPetByIdService getPetByIdService;
+    @Autowired private GetPetByIdService getPetByIdService;
 
-    @Autowired
-    private SavePetService savePetService;
+    @Autowired private SavePetService savePetService;
 
-    @Autowired
-    private DeletePetByIdService deletePetByIdService;
+    @Autowired private DeletePetByIdService deletePetByIdService;
 
-    @Autowired
-    private UpdatePetService updatePetService;
+    @Autowired private UpdatePetService updatePetService;
 
-    @Autowired
-    private FindByBredOrNameService findByBredOrNameService;
+    @Autowired private FindByBredOrNameService findByBredOrNameService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Pet> getPetById(@PathVariable("id") String name) throws Exception {
-        logger.info(String
-                .format("get-pet-by-id-service getPetById() invoked:{%s} for {%s} ",
-                        getAllPetsService.getClass().getName(),
-                        name));
+        logger.info(
+                String.format(
+                        "get-pet-by-id-service getPetById() invoked:{%s} for {%s} ",
+                        getAllPetsService.getClass().getName(), name));
         Optional<Pet> petOptional;
         Pet pet;
         try {
             pet = getPetByIdService.execute(name).get();
-            pet.add(linkTo(methodOn(PetController.class)
-                            .getPetById(pet.getName()))
-                            .withSelfRel(),
-                    linkTo(methodOn(PetController.class)
-                            .getAll())
-                            .withRel("getAll"),
-                    linkTo(methodOn(PetController.class)
-                            .savePet(pet))
-                            .withRel("savePet"),
-                    linkTo(methodOn(PetController.class)
-                            .deletePet(pet.getName()))
+            pet.add(
+                    linkTo(methodOn(PetController.class).getPetById(pet.getName())).withSelfRel(),
+                    linkTo(methodOn(PetController.class).getAll()).withRel("getAll"),
+                    linkTo(methodOn(PetController.class).savePet(pet)).withRel("savePet"),
+                    linkTo(methodOn(PetController.class).deletePet(pet.getName()))
                             .withRel("deletePet"),
-                    linkTo(methodOn(PetController.class)
-                            .update(pet))
-                            .withRel("update")
-            );
+                    linkTo(methodOn(PetController.class).update(pet)).withRel("update"));
         } catch (PetNotFoundException ex) {
             logger.log(Level.WARNING, "Exception raised getUserById REST Call", ex);
             throw ex;
@@ -81,9 +78,10 @@ public class PetController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Pet>> getAll() throws Exception {
-        logger.info(String
-                .format("get-all-pet-service getAll() invoked:{%s} for {%s} ", getAllPetsService.getClass().getName(),
-                        "ALL"));
+        logger.info(
+                String.format(
+                        "get-all-pet-service getAll() invoked:{%s} for {%s} ",
+                        getAllPetsService.getClass().getName(), "ALL"));
         List<Pet> pets;
         try {
             pets = getAllPetsService.execute(null);
@@ -91,15 +89,17 @@ public class PetController {
             logger.log(Level.SEVERE, "Exception raised getAll REST Call", ex);
             throw ex;
         }
-        return pets.size() > 0 ? new ResponseEntity<>(pets, HttpStatus.OK)
+        return pets.size() > 0
+                ? new ResponseEntity<>(pets, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/save")
     public ResponseEntity<Pet> savePet(@RequestBody Pet pet) throws Exception {
-        logger.info(String
-                .format("save-pet-service savePet() invoked:{%s} for {%s} ", savePetService.getClass().getName(),
-                        pet));
+        logger.info(
+                String.format(
+                        "save-pet-service savePet() invoked:{%s} for {%s} ",
+                        savePetService.getClass().getName(), pet));
         Pet petResponse;
         try {
             petResponse = savePetService.execute(pet);
@@ -116,10 +116,10 @@ public class PetController {
 
     @DeleteMapping("/delete/{name}")
     public ResponseEntity<Boolean> deletePet(@PathVariable("name") String name) throws Exception {
-        logger.info(String
-                .format("delete-pet-service deletePet() invoked:{%s} for {%s} ",
-                        deletePetByIdService.getClass().getName(),
-                        name));
+        logger.info(
+                String.format(
+                        "delete-pet-service deletePet() invoked:{%s} for {%s} ",
+                        deletePetByIdService.getClass().getName(), name));
         Boolean isPetDeleted;
         try {
             isPetDeleted = deletePetByIdService.execute(name);
@@ -139,9 +139,10 @@ public class PetController {
 
     @PostMapping("/update")
     public ResponseEntity<Pet> update(@RequestBody Pet pet) throws Exception {
-        logger.info(String
-                .format("update-pet-service updatePet() invoked:{%s} for {%s} ", updatePetService.getClass().getName(),
-                        pet.getName()));
+        logger.info(
+                String.format(
+                        "update-pet-service updatePet() invoked:{%s} for {%s} ",
+                        updatePetService.getClass().getName(), pet.getName()));
         Pet petResponse;
         try {
             petResponse = updatePetService.execute(pet);
@@ -156,12 +157,12 @@ public class PetController {
     }
 
     @GetMapping("/findByBredOrName")
-    public ResponseEntity<List<Pet>> findPetsByBredOrName(@RequestParam(required = true, name = "param") String param)
-            throws Exception {
-        logger.info(String
-                .format("find-pet-by-breed-or-name-service findPetsByBredOrName() invoked:{%s} for {%s} ",
-                        findByBredOrNameService.getClass().getName(),
-                        param));
+    public ResponseEntity<List<Pet>> findPetsByBredOrName(
+            @RequestParam(required = true, name = "param") String param) throws Exception {
+        logger.info(
+                String.format(
+                        "find-pet-by-breed-or-name-service findPetsByBredOrName() invoked:{%s} for {%s} ",
+                        findByBredOrNameService.getClass().getName(), param));
         List<Pet> pets;
         try {
             pets = findByBredOrNameService.execute(param);

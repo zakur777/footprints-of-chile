@@ -1,6 +1,6 @@
 package com.programadorescl.userpetservice.application.services.exceptions.user;
 
-public class DuplicateUserException extends Exception{
+public class DuplicateUserException extends Exception {
 
     private static final long serialVersionUID = -8890080495441147845L;
 

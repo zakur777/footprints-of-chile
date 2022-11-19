@@ -6,9 +6,8 @@ public class Veterinary {
     private String professionalLicense;
     private String lastName;
 
-    public Veterinary() {
+    public Veterinary() {}
 
-    }
     public Veterinary(String id, String name, String professionalLicense, String lastName) {
         Id = id;
         this.name = name;

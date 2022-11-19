@@ -1,14 +1,13 @@
 package com.programadorescl.petconsultation.common;
 
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Locale;
 
 @ControllerAdvice
 public class EndpointErrorHandler {
@@ -22,8 +21,8 @@ public class EndpointErrorHandler {
     }
 
     @ExceptionHandler(VeterinaryNotFoundException.class)
-    public ResponseEntity<ErrorInfo> handleVeterinaryNotFoundException(HttpServletRequest request,
-                                                                       VeterinaryNotFoundException ex, Locale locale) {
+    public ResponseEntity<ErrorInfo> handleVeterinaryNotFoundException(
+            HttpServletRequest request, VeterinaryNotFoundException ex, Locale locale) {
         ErrorInfo response = new ErrorInfo();
         response.setUrl(request.getRequestURL().toString());
         response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
@@ -31,8 +30,8 @@ public class EndpointErrorHandler {
     }
 
     @ExceptionHandler(DuplicateVeterinaryException.class)
-    public ResponseEntity<ErrorInfo> handleDuplicateVeterinaryException(HttpServletRequest request,
-                                                                        DuplicateVeterinaryException ex, Locale locale) {
+    public ResponseEntity<ErrorInfo> handleDuplicateVeterinaryException(
+            HttpServletRequest request, DuplicateVeterinaryException ex, Locale locale) {
         ErrorInfo response = new ErrorInfo();
         response.setUrl(request.getRequestURL().toString());
         response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
@@ -40,8 +39,8 @@ public class EndpointErrorHandler {
     }
 
     @ExceptionHandler(PetConsultationNotFoundException.class)
-    public ResponseEntity<ErrorInfo> handlePetConsultationNotFoundException(HttpServletRequest request,
-                                                                       PetConsultationNotFoundException ex, Locale locale) {
+    public ResponseEntity<ErrorInfo> handlePetConsultationNotFoundException(
+            HttpServletRequest request, PetConsultationNotFoundException ex, Locale locale) {
         ErrorInfo response = new ErrorInfo();
         response.setUrl(request.getRequestURL().toString());
         response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
@@ -49,8 +48,8 @@ public class EndpointErrorHandler {
     }
 
     @ExceptionHandler(DuplicatePetConsultationException.class)
-    public ResponseEntity<ErrorInfo> handleDuplicatePetConsultationException(HttpServletRequest request,
-                                                                        DuplicatePetConsultationException ex, Locale locale) {
+    public ResponseEntity<ErrorInfo> handleDuplicatePetConsultationException(
+            HttpServletRequest request, DuplicatePetConsultationException ex, Locale locale) {
         ErrorInfo response = new ErrorInfo();
         response.setUrl(request.getRequestURL().toString());
         response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));

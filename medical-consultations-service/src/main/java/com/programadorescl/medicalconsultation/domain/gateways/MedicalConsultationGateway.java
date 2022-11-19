@@ -1,8 +1,6 @@
 package com.programadorescl.medicalconsultation.domain.gateways;
 
 import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
-import com.programadorescl.medicalconsultation.domain.entities.StatusMedicalConsultation;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +17,6 @@ public interface MedicalConsultationGateway {
     Optional<Long> countPetNameAndStatusMedicalConsultation(String petName);
 
     MedicalConsultation save(MedicalConsultation medicalConsultation);
-
 
     void delete(MedicalConsultation medicalConsultation);
 

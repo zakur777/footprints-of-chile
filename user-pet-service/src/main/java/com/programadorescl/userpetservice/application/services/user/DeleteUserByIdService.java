@@ -6,30 +6,25 @@ import com.programadorescl.userpetservice.application.ports.in.user.DeleteUserBy
 import com.programadorescl.userpetservice.application.ports.out.user.UserGateway;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.PetWithTreatmentException;
 import com.programadorescl.userpetservice.application.services.exceptions.user.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DeleteUserByIdService implements DeleteUserByIdUseCase {
 
-    @Autowired
-    private UserGateway gateway;
-
-
-
+    @Autowired private UserGateway gateway;
 
     @Override
     public Boolean execute(Long id) throws Exception {
         Optional<User> optionalUserById = gateway.getUserById(id);
         if (optionalUserById.isPresent()) {
-            List<Pet> pets = optionalUserById.get().getPets().stream()
-                    .filter(pet -> pet.isActiveTreatment())
-                    .collect(Collectors.toList());
+            List<Pet> pets =
+                    optionalUserById.get().getPets().stream()
+                            .filter(pet -> pet.isActiveTreatment())
+                            .collect(Collectors.toList());
             if (pets.isEmpty()) {
                 User user = optionalUserById.get();
                 user.setStatus("0");

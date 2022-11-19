@@ -1,8 +1,6 @@
 package com.programadorescl.userpetservice.application.ports.out.pet;
 
 import com.programadorescl.userpetservice.application.domains.entities.Pet;
-import com.programadorescl.userpetservice.infrastructure.models.pet.PetDAO;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,5 +17,4 @@ public interface PetGateway {
     Pet update(Pet pet);
 
     List<Pet> findByBreedOrName(String param);
-
 }
