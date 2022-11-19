@@ -6,20 +6,19 @@ import com.programadorescl.userpetservice.application.ports.out.user.UserGateway
 import com.programadorescl.userpetservice.infrastructure.crud.user.UserCrudRepository;
 import com.programadorescl.userpetservice.infrastructure.mappers.user.UserMapper;
 import com.programadorescl.userpetservice.infrastructure.models.user.UserDAO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Transactional
 @Repository
 public class UserRepository implements UserGateway {
 
-    //DI a tráves de lombok por contructor
-    //@Autowired por párametro me marca error de bean para el mapper
+    // DI a tráves de lombok por contructor
+    // @Autowired por párametro me marca error de bean para el mapper
     private final UserCrudRepository crudRepository;
     private final UserMapper mapper;
 
@@ -58,7 +57,8 @@ public class UserRepository implements UserGateway {
 
     @Override
     public List<Pet> getPetsInfo(Long userId) {
-        User userById = crudRepository.findById(userId).map(user -> mapper.toDomainModel(user)).get();
+        User userById =
+                crudRepository.findById(userId).map(user -> mapper.toDomainModel(user)).get();
         return userById.getPets();
     }
 

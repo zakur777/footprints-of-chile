@@ -1,19 +1,29 @@
 package com.programadorescl.medicalconsultation.web.controller;
 
-import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
-import com.programadorescl.medicalconsultation.domain.exception.*;
-import com.programadorescl.medicalconsultation.domain.services.MedicalConsultationService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import com.programadorescl.medicalconsultation.domain.entities.MedicalConsultation;
+import com.programadorescl.medicalconsultation.domain.exception.ConsultOpenOrUnderTreatmentException;
+import com.programadorescl.medicalconsultation.domain.exception.MedicalConsultationNotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.NotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.PetConsultationNotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.PetNotFoundException;
+import com.programadorescl.medicalconsultation.domain.exception.UserNotFoundException;
+import com.programadorescl.medicalconsultation.domain.services.MedicalConsultationService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -37,14 +47,18 @@ public class MedicalConsultationController {
             medicalConsultation = service.findById(id).get();
             medicalConsultation.add(
                     linkTo(
-                            methodOn(MedicalConsultationController.class)
-                                    .findById(medicalConsultation.getId()))
+                                    methodOn(MedicalConsultationController.class)
+                                            .findById(medicalConsultation.getId()))
                             .withSelfRel(),
-                    linkTo(methodOn(MedicalConsultationController.class).getAll()).withRel("getAll"),
+                    linkTo(methodOn(MedicalConsultationController.class).getAll())
+                            .withRel("getAll"),
                     linkTo(methodOn(MedicalConsultationController.class).save(medicalConsultation))
                             .withRel("save"),
-                    linkTo(methodOn(MedicalConsultationController.class).delete(id)).withRel("delete"),
-                    linkTo(methodOn(MedicalConsultationController.class).update(medicalConsultation))
+                    linkTo(methodOn(MedicalConsultationController.class).delete(id))
+                            .withRel("delete"),
+                    linkTo(
+                                    methodOn(MedicalConsultationController.class)
+                                            .update(medicalConsultation))
                             .withRel("updateUser"));
         } catch (MedicalConsultationNotFoundException ex) {
             logger.log(Level.WARNING, "Exception raised getUserById REST Call", ex);

@@ -5,16 +5,14 @@ import com.programadorescl.userpetservice.application.ports.in.pet.DeletePetById
 import com.programadorescl.userpetservice.application.ports.out.pet.PetGateway;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.PetNotFoundException;
 import com.programadorescl.userpetservice.application.services.exceptions.pet.PetWithTreatmentException;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class DeletePetByIdService implements DeletePetByIdUseCase {
 
-    @Autowired
-    private PetGateway gateway;
+    @Autowired private PetGateway gateway;
 
     @Override
     public Boolean execute(String name) throws Exception {

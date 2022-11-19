@@ -5,5 +5,5 @@ import com.programadorescl.medicalconsultation.persistence.dto.RequestPetConsult
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface PetConsultationMapper extends GenericMapper<RequestPetConsultationDTO, PetConsultation> {
-}
+public interface PetConsultationMapper
+        extends GenericMapper<RequestPetConsultationDTO, PetConsultation> {}

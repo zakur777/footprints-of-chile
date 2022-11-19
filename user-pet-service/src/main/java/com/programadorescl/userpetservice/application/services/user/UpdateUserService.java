@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateUserService implements UpdateUserUseCase {
 
-    @Autowired
-    private UserGateway gateway;
+    @Autowired private UserGateway gateway;
 
     @Override
     public User execute(User user) throws Exception {

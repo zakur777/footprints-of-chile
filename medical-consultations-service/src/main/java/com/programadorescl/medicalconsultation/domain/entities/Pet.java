@@ -8,9 +8,7 @@ public class Pet {
     private Long userId;
     private String status;
 
-    public Pet() {
-
-    }
+    public Pet() {}
 
     public Pet(String name, boolean activeTreatment, String breed, Long userId, String status) {
         this.name = name;

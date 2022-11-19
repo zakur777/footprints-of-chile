@@ -1,13 +1,12 @@
 package com.programadorescl.medicalconsultation.domain.exception;
 
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Locale;
 
 @ControllerAdvice
 public class EndpointErrorHandler {

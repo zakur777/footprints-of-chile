@@ -8,9 +8,8 @@ public class NotFoundException extends IOException {
     private String message;
     private Object[] args;
 
-    public NotFoundException() {
+    public NotFoundException() {}
 
-    }
     public NotFoundException(String name) {
         this.message = String.format("not found", name);
     }

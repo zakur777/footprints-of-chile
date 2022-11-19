@@ -3,8 +3,7 @@ package com.programadorescl.petconsultation.domain.model.entity;
 import org.springframework.data.annotation.Id;
 
 public abstract class Entity<T> {
-    @Id
-    T id;
+    @Id T id;
     String name;
 
     public T getId() {

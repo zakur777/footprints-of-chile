@@ -1,7 +1,5 @@
 package com.programadorescl.medicalconsultation.domain.exception;
 
-import java.io.IOException;
-
 public class PetNotFoundException extends Exception {
 
     private static final long serialVersionUID = -8890080495441147845L;

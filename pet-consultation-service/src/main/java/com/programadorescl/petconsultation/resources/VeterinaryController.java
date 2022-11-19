@@ -1,23 +1,29 @@
 package com.programadorescl.petconsultation.resources;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.programadorescl.petconsultation.common.DuplicateVeterinaryException;
 import com.programadorescl.petconsultation.common.VeterinaryNotFoundException;
 import com.programadorescl.petconsultation.domain.model.entity.Veterinary;
 import com.programadorescl.petconsultation.domain.service.VeterinaryService;
 import com.programadorescl.petconsultation.domain.valueobject.VeterinaryVO;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "v1/veterinarians")
@@ -55,8 +61,6 @@ public class VeterinaryController {
                                             .findByProfessionalLicense(
                                                     veterinary.getProfessionalLicense()))
                             .withRel("findByProfessionalLicense"));
-
-
 
         } catch (VeterinaryNotFoundException ex) {
             logger.log(Level.WARNING, "Exception raised add Restaurant REST Call {0}", ex);

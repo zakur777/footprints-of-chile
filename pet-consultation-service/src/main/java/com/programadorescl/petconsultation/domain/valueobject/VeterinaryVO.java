@@ -9,8 +9,7 @@ public class VeterinaryVO extends RepresentationModel<VeterinaryVO> {
     private String professionalLicense;
     private String lastName;
 
-    public VeterinaryVO() {
-    }
+    public VeterinaryVO() {}
 
     public VeterinaryVO(String id, String name, String professionalLicense, String lastName) {
         this.id = id;

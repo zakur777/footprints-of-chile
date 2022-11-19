@@ -1,9 +1,7 @@
 package com.programadorescl.userpetservice.application.domains.entities;
 
-import com.programadorescl.userpetservice.application.domains.valueobjects.user.Rut;
-import org.springframework.hateoas.RepresentationModel;
-
 import java.util.List;
+import org.springframework.hateoas.RepresentationModel;
 
 public class User extends RepresentationModel<User> {
 
@@ -16,10 +14,16 @@ public class User extends RepresentationModel<User> {
     private List<Pet> pets;
     private String status;
 
-    public User() {
-    }
+    public User() {}
 
-    public User(String rut, Long userId, String name, String address, String city, String phone, List<Pet> pets) {
+    public User(
+            String rut,
+            Long userId,
+            String name,
+            String address,
+            String city,
+            String phone,
+            List<Pet> pets) {
         this.rut = rut;
         this.userId = userId;
         this.name = name;
@@ -96,13 +100,24 @@ public class User extends RepresentationModel<User> {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", rut='" + rut + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return "User{"
+                + "userId="
+                + userId
+                + ", rut='"
+                + rut
+                + '\''
+                + ", name='"
+                + name
+                + '\''
+                + ", address='"
+                + address
+                + '\''
+                + ", city='"
+                + city
+                + '\''
+                + ", phone='"
+                + phone
+                + '\''
+                + '}';
     }
 }

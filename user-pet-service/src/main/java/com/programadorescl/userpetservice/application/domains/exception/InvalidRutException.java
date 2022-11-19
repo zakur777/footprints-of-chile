@@ -1,6 +1,6 @@
 package com.programadorescl.userpetservice.application.domains.exception;
 
-public class InvalidRutException extends Exception{
+public class InvalidRutException extends Exception {
 
     private static final long serialVersionUID = -8890080495441147845L;
 

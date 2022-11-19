@@ -1,17 +1,7 @@
 package com.programadorescl.petconsultation.domain.model.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkRelation;
-import org.springframework.hateoas.Links;
-
-import java.util.List;
 
 @Document("veterinarians")
 public class Veterinary extends BaseEntity<String> {

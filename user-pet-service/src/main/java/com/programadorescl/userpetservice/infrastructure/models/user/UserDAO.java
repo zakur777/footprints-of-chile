@@ -1,13 +1,22 @@
 package com.programadorescl.userpetservice.infrastructure.models.user;
 
-import com.programadorescl.userpetservice.application.domains.valueobjects.user.Rut;
 import com.programadorescl.userpetservice.infrastructure.models.BaseDAO;
 import com.programadorescl.userpetservice.infrastructure.models.pet.PetDAO;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
@@ -39,5 +48,4 @@ public class UserDAO extends BaseDAO {
     @OneToMany(mappedBy = "user")
     @Column(insertable = false, updatable = false)
     private List<PetDAO> pets;
-
 }

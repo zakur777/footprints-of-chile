@@ -1,9 +1,10 @@
 package com.programadorescl.userpetservice.infrastructure.utils;
 
-import lombok.*;
-
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
@@ -18,7 +19,6 @@ public class Utils {
                         throw new IllegalStateException();
                     }
                     return list.get(0);
-                }
-        );
+                });
     }
 }

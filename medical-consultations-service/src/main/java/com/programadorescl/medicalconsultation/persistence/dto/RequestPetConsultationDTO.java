@@ -9,5 +9,4 @@ public class RequestPetConsultationDTO {
     private String nationalRegistry;
     private boolean isCertificate;
     private RequestVeterinaryDTO veterinary;
-
 }

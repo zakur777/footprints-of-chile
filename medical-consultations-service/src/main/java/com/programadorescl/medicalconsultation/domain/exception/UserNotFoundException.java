@@ -1,6 +1,6 @@
 package com.programadorescl.medicalconsultation.domain.exception;
 
-public class UserNotFoundException extends Exception{
+public class UserNotFoundException extends Exception {
 
     private static final long serialVersionUID = -8890080495441147845L;
 

@@ -7,7 +7,7 @@ public class DuplicatePetConsultationException extends Exception {
     private String message;
     private Object[] args;
 
-    public DuplicatePetConsultationException(String message){
+    public DuplicatePetConsultationException(String message) {
         this.message = String.format("Booking %s is not found.", message);
     }
 
@@ -15,7 +15,7 @@ public class DuplicatePetConsultationException extends Exception {
         this.args = args;
     }
 
-    public DuplicatePetConsultationException(String message, Object[] args){
+    public DuplicatePetConsultationException(String message, Object[] args) {
         this.message = message;
         this.args = args;
     }

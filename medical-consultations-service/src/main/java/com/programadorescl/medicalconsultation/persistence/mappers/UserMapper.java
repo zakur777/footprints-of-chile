@@ -5,5 +5,4 @@ import com.programadorescl.medicalconsultation.persistence.dto.RequestUserDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper extends GenericMapper<RequestUserDTO, User> {
-}
+public interface UserMapper extends GenericMapper<RequestUserDTO, User> {}

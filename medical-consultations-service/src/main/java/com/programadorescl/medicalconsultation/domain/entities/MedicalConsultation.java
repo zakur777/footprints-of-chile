@@ -1,8 +1,6 @@
 package com.programadorescl.medicalconsultation.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.programadorescl.medicalconsultation.persistence.models.MedicalConsultationDAO;
 import org.springframework.hateoas.RepresentationModel;
 
 public class MedicalConsultation extends RepresentationModel<MedicalConsultation> {
@@ -22,22 +20,22 @@ public class MedicalConsultation extends RepresentationModel<MedicalConsultation
 
     private Long payment;
 
-    public MedicalConsultation() {
+    public MedicalConsultation() {}
 
-    }
-
-    public MedicalConsultation(Long id, Long userId,
-                               String petName,
-                               String idPetConsultation,
-                               User user,
-                               PetConsultation petConsultation,
-                               Pet pet,
-                               PaymentMethod paymentMethod,
-                               String processDescription,
-                               StatusMedicalConsultation statusMedicalConsultation,
-                               boolean isTreatment,
-                               Long totalAmount,
-                               Long payment) {
+    public MedicalConsultation(
+            Long id,
+            Long userId,
+            String petName,
+            String idPetConsultation,
+            User user,
+            PetConsultation petConsultation,
+            Pet pet,
+            PaymentMethod paymentMethod,
+            String processDescription,
+            StatusMedicalConsultation statusMedicalConsultation,
+            boolean isTreatment,
+            Long totalAmount,
+            Long payment) {
         this.id = id;
         this.userId = userId;
         this.petName = petName;

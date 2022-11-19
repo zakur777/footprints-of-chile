@@ -1,6 +1,6 @@
 package com.programadorescl.userpetservice.application.services.exceptions.pet;
 
-public class PetNotFoundException extends Exception{
+public class PetNotFoundException extends Exception {
 
     private static final long serialVersionUID = -8890080495441147845L;
 

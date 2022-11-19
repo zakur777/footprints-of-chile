@@ -11,11 +11,16 @@ public class User {
     private String phone;
     private List<Pet> pets;
 
-    public User() {
+    public User() {}
 
-    }
-
-    public User(Long userId, String rut, String name, String address, String city, String phone, List<Pet> pets) {
+    public User(
+            Long userId,
+            String rut,
+            String name,
+            String address,
+            String city,
+            String phone,
+            List<Pet> pets) {
         this.userId = userId;
         this.rut = rut;
         this.name = name;

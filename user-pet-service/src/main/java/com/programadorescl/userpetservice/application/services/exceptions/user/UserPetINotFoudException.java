@@ -1,6 +1,6 @@
 package com.programadorescl.userpetservice.application.services.exceptions.user;
 
-public class UserPetINotFoudException extends Exception{
+public class UserPetINotFoudException extends Exception {
 
     private static final long serialVersionUID = -8890080495551147845L;
     private String message;
@@ -35,5 +35,4 @@ public class UserPetINotFoudException extends Exception{
     public void setArgs(Object[] args) {
         this.args = args;
     }
-
 }

@@ -5,5 +5,5 @@ import com.programadorescl.medicalconsultation.persistence.models.MedicalConsult
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface MedicalConsultationMapper extends GenericMapper<MedicalConsultationDAO, MedicalConsultation>{
-}
+public interface MedicalConsultationMapper
+        extends GenericMapper<MedicalConsultationDAO, MedicalConsultation> {}

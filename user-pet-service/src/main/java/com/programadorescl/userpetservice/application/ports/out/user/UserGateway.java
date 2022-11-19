@@ -2,9 +2,7 @@ package com.programadorescl.userpetservice.application.ports.out.user;
 
 import com.programadorescl.userpetservice.application.domains.entities.Pet;
 import com.programadorescl.userpetservice.application.domains.entities.User;
-
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 public interface UserGateway {

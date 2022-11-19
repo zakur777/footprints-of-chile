@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VeterinaryRepository extends MongoRepository<Veterinary, String> {
     Veterinary findByName(String name);
+
     Veterinary findByProfessionalLicense(String license);
 }
